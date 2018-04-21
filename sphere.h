@@ -1,5 +1,6 @@
 #pragma once
 // Introduced in Chapter 5
+// Updated t,n,b in chapter 8
 #include "hitable.h"
 
 class sphere : public hitable
@@ -10,7 +11,7 @@ public:
 
 public:
 	sphere() {}
-	sphere(const vec3& c, float r) : center(c), radius(r) {}
+	sphere(const vec3& c, float r, material* mat=nullptr) : center(c), radius(r), hitable(mat) {}
 	virtual bool hit(const ray& r, float tMin, float tMax, hitRecord& hitrec) const
 	{
 		vec3 co = center - r.o;
@@ -26,6 +27,9 @@ public:
 				hitrec.t = t1;
 				hitrec.p = r.at(hitrec.t);
 				hitrec.n = (hitrec.p - center) / radius;
+				hitrec.tg = normalize(perp(hitrec.n));
+				hitrec.b = cross(hitrec.n, hitrec.tg);
+				hitrec.mat = mat;
 				return true;
 			}
 			float t2 = B + D;
@@ -34,6 +38,9 @@ public:
 				hitrec.t = t2;
 				hitrec.p = r.at(hitrec.t);
 				hitrec.n = (hitrec.p - center) / radius;
+				hitrec.tg = normalize(perp(hitrec.n));
+				hitrec.b = cross(hitrec.n, hitrec.tg);
+				hitrec.mat = mat;
 				return true;
 			}
 		}

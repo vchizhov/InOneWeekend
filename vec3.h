@@ -20,7 +20,7 @@ public:
 	};
 
 	vec3() {}
-	vec3(float s) : x(s), y(s), z(s) {}
+	explicit vec3(float s) : x(s), y(s), z(s) {}
 	vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 	vec3(const vec3& o) : x(o.x), y(o.y), z(o.z) {}
 
@@ -128,7 +128,10 @@ vec3 operator*(const vec3& lhs, float rhs);
 vec3 operator/(const vec3& lhs, float rhs);
 float dot(const vec3& lhs, const vec3& rhs);
 vec3 cross(const vec3& lhs, const vec3& rhs);
-vec3 length(const vec3& o);
-vec3 lengthSquared(const vec3& o);
+float length(const vec3& o);
+float lengthSquared(const vec3& o);
 vec3 normalize(const vec3& o);
 vec3 clamp(const vec3& x, const vec3 a = vec3(0.0f), const vec3 b = vec3(1.0f));
+vec3 perp(const vec3& o);
+vec3 sqrt(const vec3& o);
+vec3 reflect(const vec3& v, const vec3& n);
