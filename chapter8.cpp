@@ -41,7 +41,7 @@ bool chapter8(const char* filename)
 {
 	int nx = 200;
 	int ny = 100;
-	int ns = 100;
+	int ns = 300;
 	float aspectRatio = float(nx) / float(ny);
 	std::ofstream os;
 
@@ -60,8 +60,8 @@ bool chapter8(const char* filename)
 	hitable* list[4];
 	list[0] = new sphere(vec3(0.0f, 0.0f, 1.0f), 0.5f, new lambertian(vec3(0.8f, 0.3f, 0.3f)));
 	list[1] = new sphere(vec3(0.0f, -100.5f, 0.0f), 100.0f, new lambertian(vec3(0.8f, 0.8f, 0.0f)));
-	list[2] = new sphere(vec3(1.0f, 0.0f, 1.0f), 0.5f, new metal(vec3(0.8f, 0.6f, 0.2f)));
-	list[3] = new sphere(vec3(-1.0f, 0.0f, 1.0f), 0.5f, new metal(vec3(0.8f)));
+	list[2] = new sphere(vec3(1.0f, 0.0f, 1.0f), 0.5f, new metal(vec3(0.8f, 0.6f, 0.2f), 0.7f));
+	list[3] = new sphere(vec3(-1.0f, 0.0f, 1.0f), 0.5f, new metal(vec3(0.8f), 0.1f));
 	hitableList world(list, 4);
 
 	os.open(filename);

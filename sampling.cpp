@@ -13,6 +13,15 @@ vec3 uniformCosHemisphere(float r1, float r2)
 	return vec3(sinTheta*cosf(phi), cosTheta, sinTheta*sinf(phi));
 }
 
+vec3 uniformCosLobeHemisphere(float r1, float r2, float lobeTheta)
+{
+	float phi = 2.0f*float(M_PI)*r1;
+	float lb = sinf(lobeTheta);
+	float sinTheta = sqrtf(r2*lb*lb);
+	float cosTheta = sqrtf(1.0f - r2);
+	return vec3(sinTheta*cosf(phi), cosTheta, sinTheta*sinf(phi));
+}
+
 float random()
 {
 	static thread_local std::mt19937 gen(std::random_device{}());
