@@ -1,3 +1,5 @@
+// Introduced in chapter 2
+
 #pragma once
 #include <math.h>
 
@@ -20,6 +22,7 @@ public:
 	vec3() {}
 	vec3(float s) : x(s), y(s), z(s) {}
 	vec3(float x, float y, float z) : x(x), y(y), z(z) {}
+	vec3(const vec3& o) : x(o.x), y(o.y), z(o.z) {}
 
 	inline vec3& operator+() { return *this; }
 	inline vec3 operator-() { return vec3(-x, -y, -z); }
