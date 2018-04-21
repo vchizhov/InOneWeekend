@@ -3,17 +3,12 @@
 #include <fstream>
 #include "ray.h"
 
-vec3 color(const ray& o)
+static vec3 color(const ray& o)
 {
 	//[-1,1]->[0,1]
 	float t = 0.5f*(o.d.y + 1.0f);
 	// lerp b etween white and sky blue - the closer to the horizon the ray is, the whiter
 	return (1-t)*vec3(1.0f) + t*vec3(0.5f, 0.7f, 1.0f);
-}
-
-vec3 clamp(const vec3& x, const vec3 a = vec3(0.0f), const vec3 b = vec3(1.0f))
-{
-	return vec3(a.x > x.x ? a.x : b.x<x.x ? b.x : x.x, a.y>x.y ? a.y : b.y<x.y ? b.y : x.y, a.z>x.z ? a.z : b.z<x.z ? b.z : x.z);
 }
 
 bool chapter3(const char* filename)

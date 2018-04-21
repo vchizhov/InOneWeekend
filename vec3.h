@@ -24,6 +24,14 @@ public:
 	vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 	vec3(const vec3& o) : x(o.x), y(o.y), z(o.z) {}
 
+	vec3& operator=(const vec3& o)
+	{
+		x = o.x;
+		y = o.y;
+		z = o.z;
+		return *this;
+	}
+
 	inline vec3& operator+() { return *this; }
 	inline vec3 operator-() { return vec3(-x, -y, -z); }
 	inline const float& operator[](int i) const { return e[i]; }
@@ -123,3 +131,4 @@ vec3 cross(const vec3& lhs, const vec3& rhs);
 vec3 length(const vec3& o);
 vec3 lengthSquared(const vec3& o);
 vec3 normalize(const vec3& o);
+vec3 clamp(const vec3& x, const vec3 a = vec3(0.0f), const vec3 b = vec3(1.0f));

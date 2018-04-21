@@ -52,3 +52,7 @@ vec3 normalize(const vec3& o)
 {
 	return o / length(o);
 }
+vec3 clamp(const vec3& x, const vec3 a, const vec3 b)
+{
+	return vec3(a.x > x.x ? a.x : b.x<x.x ? b.x : x.x, a.y>x.y ? a.y : b.y<x.y ? b.y : x.y, a.z>x.z ? a.z : b.z<x.z ? b.z : x.z);
+}
