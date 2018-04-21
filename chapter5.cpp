@@ -47,7 +47,6 @@ static vec3 color1(const ray& o)
 
 static vec3 color2(const ray& o, hitableList& world)
 {
-	float t = hitSphere(vec3(0, 0, 1), 0.5f, o);
 	hitRecord hitrec;
 	if (world.hit(o, 0.0f, FLT_MAX, hitrec))
 	{
