@@ -36,3 +36,7 @@
 /.vs
 *.vcxproj
 *.filters
+/x64
+
+# images
+*.ppm
