@@ -16,15 +16,15 @@ static vec3 color(const ray& o, const hitableList& world, int depth)
 	{
 		ray scattered;
 		vec3 attenuation;
-		if (depth < 50 && hitrec.mat->scatter(o, hitrec, attenuation, scattered))
+		if (depth < 10 && hitrec.mat->scatter(o, hitrec, attenuation, scattered))
 		{
-			return attenuation*color(scattered, world, depth+1);
+			return attenuation*color(scattered, world, depth + 1);
 		}
 		else
 		{
 			return vec3(0.0f);
 		}
-		
+
 	}
 	else
 	{
@@ -35,11 +35,11 @@ static vec3 color(const ray& o, const hitableList& world, int depth)
 	}
 }
 
-bool chapter8(const char* filename)
+bool chapter9(const char* filename)
 {
-	int nx = 200;
-	int ny = 100;
-	int ns = 300;
+	int nx = 800;
+	int ny = 400;
+	int ns = 20;
 	float aspectRatio = float(nx) / float(ny);
 	std::ofstream os;
 
@@ -55,12 +55,13 @@ bool chapter8(const char* filename)
 	camera cam(origin, right, up, forward, aspectRatio);
 
 
-	hitable* list[4];
-	list[0] = new sphere(vec3(0.0f, 0.0f, 1.0f), 0.5f, new lambertian(vec3(0.8f, 0.3f, 0.3f)));
+	hitable* list[5];
+	list[0] = new sphere(vec3(0.0f, 0.0f, 1.0f), 0.5f, new lambertian(vec3(0.1f, 0.2f, 0.5f)));
 	list[1] = new sphere(vec3(0.0f, -100.5f, 0.0f), 100.0f, new lambertian(vec3(0.8f, 0.8f, 0.0f)));
-	list[2] = new sphere(vec3(1.0f, 0.0f, 1.0f), 0.5f, new metal(vec3(0.8f, 0.6f, 0.2f), 0.7f));
-	list[3] = new sphere(vec3(-1.0f, 0.0f, 1.0f), 0.5f, new metal(vec3(0.8f), 0.1f));
-	hitableList world(list, 4);
+	list[2] = new sphere(vec3(1.0f, 0.0f, 1.0f), 0.5f, new metal(vec3(0.8f, 0.6f, 0.2f)));
+	list[3] = new sphere(vec3(-1.0f, 0.0f, 1.0f), 0.5f, new dielectric(1.5f));
+	list[4] = new sphere(vec3(-1.0f, 0.0f, 1.0f), 0.45f, new dielectric(1.0f/1.5f));
+	hitableList world(list, 5);
 
 	os.open(filename);
 	os << "P3\n" << nx << " " << ny << "\n255\n";

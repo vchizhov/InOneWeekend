@@ -9,6 +9,8 @@ int main()
 	//chapter5();
 	//chapter6();
 	//chapter7();
-	chapter8();
+	//chapter8();
+	//chapter9();
+	chapter10();
 	return 0;
 }

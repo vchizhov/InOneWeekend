@@ -2,43 +2,43 @@
 
 vec3 operator+(const vec3& lhs, const vec3& rhs)
 {
-	return vec3(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
+	return vec3(lhs[0] + rhs[0], lhs[1] + rhs[1], lhs[2] + rhs[2]);
 }
 vec3 operator-(const vec3& lhs, const vec3& rhs)
 {
-	return vec3(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
+	return vec3(lhs[0] - rhs[0], lhs[1] - rhs[1], lhs[2] - rhs[2]);
 }
 vec3 operator*(const vec3& lhs, const vec3& rhs)
 {
-	return vec3(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z);
+	return vec3(lhs[0] * rhs[0], lhs[1] * rhs[1], lhs[2] * rhs[2]);
 }
 vec3 operator/(const vec3& lhs, const vec3& rhs)
 {
-	return vec3(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z);
+	return vec3(lhs[0] / rhs[0], lhs[1] / rhs[1], lhs[2] / rhs[2]);
 }
 vec3 operator*(float lhs, const vec3& rhs)
 {
-	return vec3(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z);
+	return vec3(lhs * rhs[0], lhs * rhs[1], lhs * rhs[2]);
 }
 vec3 operator/(float lhs, const vec3& rhs)
 {
-	return vec3(lhs / rhs.x, lhs / rhs.y, lhs / rhs.z);
+	return vec3(lhs / rhs[0], lhs / rhs[1], lhs / rhs[2]);
 }
 vec3 operator*(const vec3& lhs, float rhs)
 {
-	return vec3(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
+	return vec3(lhs[0] * rhs, lhs[1] * rhs, lhs[2] * rhs);
 }
 vec3 operator/(const vec3& lhs, float rhs)
 {
-	return vec3(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
+	return vec3(lhs[0] / rhs, lhs[1] / rhs, lhs[2] / rhs);
 }
 float dot(const vec3& lhs, const vec3& rhs)
 {
-	return lhs.x*rhs.x + lhs.y*rhs.y + lhs.z*rhs.z;
+	return lhs[0]*rhs[0] + lhs[1]*rhs[1] + lhs[2]*rhs[2];
 }
 vec3 cross(const vec3& lhs, const vec3& rhs)
 {
-	return vec3(lhs.y*rhs.z - lhs.z*rhs.y, lhs.z*rhs.x - lhs.x*rhs.z, lhs.x*rhs.y - lhs.y*rhs.x);
+	return vec3(lhs[1]*rhs[2] - lhs[2]*rhs[1], lhs[2]*rhs[0] - lhs[0]*rhs[2], lhs[0]*rhs[1] - lhs[1]*rhs[0]);
 }
 float length(const vec3& o)
 {
@@ -54,21 +54,36 @@ vec3 normalize(const vec3& o)
 }
 vec3 clamp(const vec3& x, const vec3 a, const vec3 b)
 {
-	return vec3(a.x > x.x ? a.x : b.x<x.x ? b.x : x.x, a.y>x.y ? a.y : b.y<x.y ? b.y : x.y, a.z>x.z ? a.z : b.z<x.z ? b.z : x.z);
+	return vec3(a[0] > x[0] ? a[0] : b[0]<x[0] ? b[0] : x[0], a[1]>x[1] ? a[1] : b[1]<x[1] ? b[1] : x[1], a[2]>x[2] ? a[2] : b[2]<x[2] ? b[2] : x[2]);
 }
 vec3 perp(const vec3& o)
 {
-	if (o.x < o.y && o.x < o.z) return vec3(0.0f, -o.z, o.y);
-	else if (o.y < o.x && o.y < o.z) return vec3(-o.z, 0.0f, o.x);
-	else return vec3(-o.y, o.x, 0.0f);
+	if (o[0] < o[1] && o[0] < o[2]) return vec3(0.0f, -o[2], o[1]);
+	else if (o[1] < o[0] && o[1] < o[2]) return vec3(-o[2], 0.0f, o[0]);
+	else return vec3(-o[1], o[0], 0.0f);
 }
 vec3 sqrt(const vec3& o)
 {
-	return vec3(sqrtf(o.x), sqrtf(o.y), sqrtf(o.z));
+	return vec3(sqrtf(o[0]), sqrtf(o[1]), sqrtf(o[2]));
 }
 // v + v' = 2i
 // v' = 2*i - v = 2*(v+dot(-v,n)*n) - v = v - dot(v,n)
 vec3 reflect(const vec3& v, const vec3& n)
 {
 	return v - 2.0f*dot(v, n)*n;
+}
+bool refract(const vec3& v, const vec3& n, float ior, vec3& refracted)
+{
+	float cosTheta1 = -dot(v, n);
+	float cosTheta2Sq = 1.0f - ior*ior*(1.0f - cosTheta1*cosTheta1);
+	if (cosTheta2Sq < 0.0f) return false;
+	else
+	{
+		refracted = ior*v + (cosTheta1*ior - sqrtf(cosTheta2Sq))*n;
+		return true;
+	}
+}
+std::ostream& operator<<(std::ostream& os, const vec3& o)
+{
+	os << o[0] << "\t" << o[1] << "\t" << o[2];
 }
