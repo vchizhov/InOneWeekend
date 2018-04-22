@@ -28,3 +28,7 @@ bool chapter8(const char* filename = "chapter8_img1.ppm");
 bool chapter9(const char* filename = "chapter9_img2.ppm");
 
 bool chapter10(const char* filename = "chapter10_img1.ppm");
+
+bool chapter11(const char* filename = "chapter11_img1.ppm");
+
+bool chapter12(const char* filename = "chapter12_img1.ppm");

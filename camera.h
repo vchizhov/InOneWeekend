@@ -3,9 +3,11 @@
 //Introduced in chapter 6
 // Updated in chapter 10
 #include "ray.h"
+#include "sampling.h"
+#include "mat3.h"
 class camera
 {
-private:
+protected:
 	vec3 origin;
 	vec3 right, up, forward;
 	float scaleX, scaleY;
@@ -15,18 +17,6 @@ public:
 	camera(vec3 origin, vec3 right, vec3 up, vec3 forward, float hfov, float vfov)
 		: origin(origin), right(right), up(up), forward(forward), scaleX(tanf(0.5f*hfov)), scaleY(tanf(0.5f*vfov))
 	{
-	}
-
-	camera(const camera& o) : origin(o.origin), right(o.right), up(o.up), forward(o.forward), scaleX(o.scaleX), scaleY(o.scaleY) {}
-	camera& operator=(const camera& o)
-	{
-		origin = o.origin;
-		right = o.right;
-		up = o.up;
-		forward = o.forward;
-		scaleX = o.scaleX;
-		scaleY = o.scaleY;
-		return *this;
 	}
 	
 	ray getRay(float ndcX, float ndcY)
@@ -58,4 +48,30 @@ public:
 		return hfov;
 	}
 
+};
+
+class thinLensCamera : public camera
+{
+private:
+	float filmDistance;
+	float apertureRadius;
+public:
+	thinLensCamera() {}
+	thinLensCamera(vec3 origin, vec3 right, vec3 up, vec3 forward, float hfov, float vfov, float fd, float ar)
+		: camera(origin, right, up, forward, hfov, vfov), filmDistance(fd), apertureRadius(ar) {}
+	thinLensCamera(const camera& cam, float fd, float ar) : camera(cam), filmDistance(fd), apertureRadius(ar) {}
+
+	static thinLensCamera fromLookAt(vec3 origin, vec3 target, vec3 vup, float hfov, float vfov, float fd, float ar)
+	{
+		return thinLensCamera(camera::fromLookAt(origin, target, vup, hfov, vfov), fd, ar);
+	}
+
+	ray getRay(float ndcX, float ndcY)
+	{
+		vec3 sampled = apertureRadius*uniformDisk(random(), random());
+		sampled = sampled.x*right + sampled.y*up;
+		vec3 filmPixel = scaleX*ndcX*right + scaleY*ndcY*up + filmDistance*forward;
+		vec3 dir = normalize(filmPixel - sampled);
+		return ray(origin + sampled, dir);
+	}
 };
